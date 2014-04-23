@@ -8,7 +8,7 @@
 
 	deck.prototype.buildDeck = function(difficulty) {
 		var n = difficulty == "easy" ? 3 : 4
-		this.deck = [];
+		this.cards = [];
 		
 		for (var i = 0; i < 3; i++) {
 			for (var j = 0; j < 3; j++) {
@@ -18,12 +18,13 @@
 						            + j.toString()
 						            + k.toString()
 						            + l.toString();
-						this.deck.push(combo)
+						this.cards.push(combo)
 					}
 				}
 			}
 		}
-		return shuffle(this.deck);
+
+		return this.shuffle(this.cards);
 	}
 
 	// From http://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
@@ -45,7 +46,6 @@
 	    array[currentIndex] = array[randomIndex];
 	    array[randomIndex] = temporaryValue;
 	  }
-
 	  return array;
 	}
 

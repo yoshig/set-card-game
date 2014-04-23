@@ -9,21 +9,20 @@
 
 	var SetGame = root.SetGame = (root.SetGame || {});
 
-	var Game = SetGame.game = function() {
-		this.deck = SetGame.deck.buildDeck();
+	var Game = SetGame.Game = function() {
+    this.deck = new SetGame.deck("hard");
 		this.score = 0;
-		this.startGame();
 	}
 
 	Game.prototype.startGame = function() {
-		this.tableCards = this.deck.slice(this.deck.length - 12);
+    this.tableCards = this.deck.cards.slice(this.deck.cards.length - 12);
 	}
 
 	Game.prototype.validSet = function(a, b, c) {
 		var valid = true;
 		// Will need to change 4 for easy difficulty
 		for (var i = 0; i < 4; i++) {
-			var feature = [a[i], b[i], c[i]].unique.length
+			var feature = [a[i], b[i], c[i]].unique().length
 			if (feature == 2) {
 				valid = false;
 			}
@@ -32,10 +31,13 @@
 	};
 
 	Game.prototype.anySets = function() {
-		for (var i = 0; i < tableCards.length; i++) {
-			for (var j = i + 1; j < tableCards.length; j++) {
-				for (var k = j + 1; k < tableCards.length; k++) {
-					if (this.validSet(i, j, k)) {
+		for (var i = 0; i < this.tableCards.length; i++) {
+			for (var j = i + 1; j < this.tableCards.length; j++) {
+				for (var k = j + 1; k < this.tableCards.length; k++) {
+          var card1 = this.tableCards[i]
+          var card2 = this.tableCards[j]
+          var card3 = this.tableCards[k]
+					if (this.validSet(card1, card2, card3)) {
 						return true;
 					}
 				}
