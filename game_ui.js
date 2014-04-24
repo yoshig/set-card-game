@@ -3,22 +3,37 @@
 
   GameUI = SetGame.GameUI = function() {
   	this.game = new SetGame.Game()
-  	this.startGame();
+  	this.buildBoard();
+  	this.clicks = 0;
+  	this.clickCards();
   }
 
-  GameUI.prototype.startGame = function() {
+  GameUI.prototype.buildBoard = function() {
   	this.game.startGame();
+  	var split = 0;
   	this.game.tableCards.forEach(function(card) {
+  		if (split % 4 == 0) {
+  			$('.gameboard').append('<br>');	
+  		}
   		var imageURL = "https://s3-us-west-1.amazonaws.com/setcardgame/card_images/" + card + ".png"
-  		var imageTag = "<img src=" + imageURL + ">"
+  		var imageTag = "<img class='card' src=" + imageURL + ">"
   		$('.gameboard').append(imageTag);
+  		split++;
   	});
   }
 
-  SetGame.buildBoard = function() {
+  GameUI.prototype.clickCards = function() {
+  	var ui = this;
+
+  	$('.card').on('click', function(event) {
+  		if ($(event.target).attr('class') === "card") {
+  			ui.clicks++
+  		} else {
+  			ui.clicks--
+  		}
+  		console.log(ui.clicks)
+  		$(this).toggleClass('clicked');
+  	})
   }
 
-  SetGame.chooseCard = function(card) {
-
-  }
 })(this)
