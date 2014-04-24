@@ -16,6 +16,7 @@
 
 	Game.prototype.startGame = function() {
     this.tableCards = this.deck.cards.slice(this.deck.cards.length - 12);
+    this.fringeCards = [];
 	}
 
 	Game.prototype.validSet = function(a, b, c) {
@@ -31,6 +32,10 @@
 	};
 
 	Game.prototype.anySets = function() {
+    if (this.fringeCards.length > 0) {
+      return true;
+    }
+    
 		for (var i = 0; i < this.tableCards.length; i++) {
 			for (var j = i + 1; j < this.tableCards.length; j++) {
 				for (var k = j + 1; k < this.tableCards.length; k++) {
@@ -50,5 +55,27 @@
 	Game.prototype.gameOver = function() {
 		return this.deck.length == 0 && this.anySets();
 	}
+  
+  Game.prototype.addToTable = function(source) {
+    for (var i = 0; i < 3; i++) {
+      var card = source.pop();
+      if (card) {
+        var space = this.tableCards.indexOf(nil);
+        this.tableCards[space] = card;
+      }
+    }
+  }
+  
+  Game.prototype.removeFromTable = function(a, b, c) {
+    [a, b, c].forEach(function(card) {
+      var location = this.tableCards.indexOf(card);
+      if (location > -1) {
+        this.tableCards[location] = undefined;
+      } else {
+        location = this.fringeCards.indexOf(card);
+        this.fringeCards[location] = undefined;
+      }      
+    });
+  }
 
 })(this)
